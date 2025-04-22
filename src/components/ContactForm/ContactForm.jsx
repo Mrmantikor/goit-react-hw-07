@@ -26,7 +26,6 @@ const ContactForm = ({ onAdd }) => {
 
   const handleSubmit = (values, actions) => {
     const newContact = {
-      id: nanoid(),
       name: values.name,
       number: values.number,
     };

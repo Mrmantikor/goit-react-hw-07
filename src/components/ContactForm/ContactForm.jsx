@@ -1,11 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useId } from "react";
-import { nanoid } from "nanoid";
 
 import styles from "./ContactForm.module.scss";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/contactsAPI";
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
@@ -25,12 +23,13 @@ const initialValues = {
 
 const ContactForm = ({ onAdd }) => {
   const dispatch = useDispatch();
-  const nameFieldId = useId();
-  const numberFieldId = useId();
-  const contactId = nanoid();
 
   const handleSubmit = (values, actions) => {
-    const newContact = { ...values, id: contactId };
+    const newContact = {
+      id: nanoid(),
+      name: values.name,
+      number: values.number,
+    };
     dispatch(addContact(newContact));
     actions.setSubmitting(false);
     actions.resetForm();
@@ -44,16 +43,9 @@ const ContactForm = ({ onAdd }) => {
     >
       {({ isSubmitting }) => (
         <Form className={styles["form-container"]}>
-          <label className={styles["field-label"]} htmlFor={nameFieldId}>
-            Name
-          </label>
+          <label className={styles["field-label"]}>Name</label>
           <div className={styles["input-group"]}>
-            <Field
-              className={styles["input-field"]}
-              type="text"
-              name="name"
-              id={nameFieldId}
-            />
+            <Field className={styles["input-field"]} type="text" name="name" />
             <ErrorMessage
               className={styles["error-message"]}
               name="name"
@@ -61,16 +53,13 @@ const ContactForm = ({ onAdd }) => {
             />
           </div>
 
-          <label className={styles["field-label"]} htmlFor={numberFieldId}>
-            Number
-          </label>
+          <label className={styles["field-label"]}>Number</label>
           <div className={styles["input-group"]}>
             <Field
               className={styles["input-field"]}
               type="tel"
               inputMode="tel"
               name="number"
-              id={numberFieldId}
             />
             <ErrorMessage
               className={styles["error-message-large"]}

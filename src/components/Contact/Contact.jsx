@@ -2,7 +2,7 @@ import { IoIosContact } from "react-icons/io";
 import { MdPhoneInTalk } from "react-icons/md";
 import styles from "./Contact.module.scss";
 import { useDispatch } from "react-redux";
-import { deleteContact } from "../../redux/contactsSlice";
+import { deleteContact } from "../../redux/contactsAPI";
 
 const Contact = ({ id, number, name }) => {
   const dispatch = useDispatch();
